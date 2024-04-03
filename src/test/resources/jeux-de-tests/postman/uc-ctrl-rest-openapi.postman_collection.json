@@ -1,0 +1,1661 @@
+{
+	"info": {
+		"_postman_id": "933ddec3-e02f-4215-964e-719e2f782b60",
+		"name": "uc-ctrl-rest-openapi",
+		"description": "Exemple d'API REST implémentée par le use-case [uc-ctrl-rest-openapi](https://gitlab.cnqd.cnamts.fr/stump/kits-java/developpement/usecases-web/uc-ctrl-rest-openapi) de STUMP Service.\n\nCette collection Postman comprend :\n\n- Une variable baseURL en deux versions :\n * Pour vos tests locaux lors de l'exécution de l'applicatif sur votre machine : \"localhost...\" \n * Pour des tests sur notre machine d'exposition des uses-cases : \"152101lpw1.csh-dijon.ramage[...]\"\n(Attention : si vous voulez sauvegarder une modification de variable, modifier l'initial value et reset la current value. [La documentation](https://learning.postman.com/docs/sending-requests/variables/#defining-environment-variables)\n\n\n\n- Un CRUD pour la gestion bénéficiaire par ID (dans le sous dossier {id}. L'id est en paramètre \"parameters/path variable\".\n\n\n- Une requête de recherche de bénéficiaire GET par matricule et paramètre(s) optionnel(s) :\n * matricule\n * rang \n * date de naissance\n\n\n- Une requête de mise à jour PUT du nom et/ou le prénom d'un bénéficiaire (les autres champs du bénéficiaire envoyés servant à son identification)\n\n\n- Une requête de création de bénéficiaire POST avec tous les paramètres.\n\nContact Support:\n Name: CNAM DDST / PER / Pole Back\n Email: ddst-back-per.cnam@assurance-maladie.fr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "beneficiaires",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Lecture d'un bénéficiaire par id.",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5",
+											"description": "(Required) l'identifiant du bénéficiaire"
+										}
+									]
+								},
+								"description": "Permet de récupérer un bénéficiaire via son id"
+							},
+							"response": [
+								{
+									"name": "Authentification non fournie ou incorrecte",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4010\",\n   \"message\": \"L'opération que vous souhaitez exécuter nécessite d'être authentifié. Soit les éléments d'authentification n'ont pas été fournis soit ils sont incorrects.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Bénéficiaire inexistant",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4040\",\n   \"message\": \"La resource demandée n'a pu être trouvée. Merci de vérifier les paramètres de votre requête.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Réponse contenant un bénéficiaire",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"value\": {\n  \"id\": 21,\n  \"matricule\": \"2760305040302\",\n  \"date-naissance\": \"1976-03-23\",\n  \"rang\": 1,\n  \"nom\": \"Jennings\",\n  \"prenom\": \"elizabeth\"\n }\n}"
+								},
+								{
+									"name": "Données du bénéficiaire invalides",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4000\",\n   \"message\": \"Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et soumettre à nouveau votre demande.\",\n   \"details\": {\n    \"violations\": [\n     {\n      \"rang\": \"doit être supérieur à 1\"\n     },\n     {\n      \"matricule\": \"doit être de longueur comprise entre 13 et 13\"\n     }\n    ]\n   }\n  }\n ]\n}"
+								},
+								{
+									"name": "Erreur inattendue",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_5000\",\n   \"message\": \"Une erreur technique inattendue est survenue pendant l'exécution de l'opération demandée. Veuillez réitérer votre demande. Si le problème persiste, merci de contacter le support.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Permissions insuffisantes",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4030\",\n   \"message\": \"Vous n'avez pas les permissions suffisantes pour pouvoir exécuter l'opération demandée.\"\n  }\n ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Remplace un bénéficiaire existant par un autre.",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 5,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 1,\n    \"nom\": \"Debailly\",\n    \"prenom\": \"guillaume\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5",
+											"description": "(Required) l'identifiant du bénéficiaire"
+										}
+									]
+								},
+								"description": "Recherche le bénéficiaire dont l'id est celui de l'URL et associe le bénéficiaire\nfourni à cet id."
+							},
+							"response": [
+								{
+									"name": "Permissions insuffisantes",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4030\",\n   \"message\": \"Vous n'avez pas les permissions suffisantes pour pouvoir exécuter l'opération demandée.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Données du bénéficiaire invalides",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4000\",\n   \"message\": \"Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et soumettre à nouveau votre demande.\",\n   \"details\": {\n    \"violations\": [\n     {\n      \"rang\": \"doit être supérieur à 1\"\n     },\n     {\n      \"matricule\": \"doit être de longueur comprise entre 13 et 13\"\n     }\n    ]\n   }\n  }\n ]\n}"
+								},
+								{
+									"name": "Bénéficiaire inexistant",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4040\",\n   \"message\": \"La resource demandée n'a pu être trouvée. Merci de vérifier les paramètres de votre requête.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Réponse contenant un bénéficiaire",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"value\": {\n  \"id\": 21,\n  \"matricule\": \"2760305040302\",\n  \"date-naissance\": \"1976-03-23\",\n  \"rang\": 1,\n  \"nom\": \"Jennings\",\n  \"prenom\": \"elizabeth\"\n }\n}"
+								},
+								{
+									"name": "Authentification non fournie ou incorrecte",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4010\",\n   \"message\": \"L'opération que vous souhaitez exécuter nécessite d'être authentifié. Soit les éléments d'authentification n'ont pas été fournis soit ils sont incorrects.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Erreur inattendue",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_5000\",\n   \"message\": \"Une erreur technique inattendue est survenue pendant l'exécution de l'opération demandée. Veuillez réitérer votre demande. Si le problème persiste, merci de contacter le support.\"\n  }\n ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Supprime un bénéficiaire identifié par son id.",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5",
+											"description": "(Required) l'identifiant du bénéficiaire"
+										}
+									]
+								},
+								"description": "Supprime un utilisateur par son id"
+							},
+							"response": [
+								{
+									"name": "Réponse indiquant un succès mais sans contenu retourné",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Permissions insuffisantes",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4030\",\n   \"message\": \"Vous n'avez pas les permissions suffisantes pour pouvoir exécuter l'opération demandée.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Erreur inattendue",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_5000\",\n   \"message\": \"Une erreur technique inattendue est survenue pendant l'exécution de l'opération demandée. Veuillez réitérer votre demande. Si le problème persiste, merci de contacter le support.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Bénéficiaire inexistant",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4040\",\n   \"message\": \"La resource demandée n'a pu être trouvée. Merci de vérifier les paramètres de votre requête.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Authentification non fournie ou incorrecte",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4010\",\n   \"message\": \"L'opération que vous souhaitez exécuter nécessite d'être authentifié. Soit les éléments d'authentification n'ont pas été fournis soit ils sont incorrects.\"\n  }\n ]\n}"
+								},
+								{
+									"name": "Données du bénéficiaire invalides",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/beneficiaires/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"beneficiaires",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4000\",\n   \"message\": \"Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et soumettre à nouveau votre demande.\",\n   \"details\": {\n    \"violations\": [\n     {\n      \"rang\": \"doit être supérieur à 1\"\n     },\n     {\n      \"matricule\": \"doit être de longueur comprise entre 13 et 13\"\n     }\n    ]\n   }\n  }\n ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Liste les bénéficiaires pour un matricule donné, et en option une date de naissance et un rang.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/beneficiaires?matricule=2951201000001",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"beneficiaires"
+							],
+							"query": [
+								{
+									"key": "matricule",
+									"value": "2951201000001",
+									"description": "(Required) le matricule du bénéficiaire"
+								},
+								{
+									"key": "date-naissance",
+									"value": "1995-12-31",
+									"description": "la date de naissance du bénéficiaire",
+									"disabled": true
+								},
+								{
+									"key": "rang",
+									"value": "1",
+									"description": "le rang du bénéficiaire",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Le matricule est obligatoire.\nOn peut rechercher par matricule seulement;\nou par matricule date de naissance et rang.\nla recherche par matricule et rang seulement ou matricule et date de naissance\nseulement n'est pas implémetée."
+					},
+					"response": [
+						{
+							"name": "Erreur inattendue",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires?matricule=pari&date-naissance=1999-11-09&rang=51713454",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									],
+									"query": [
+										{
+											"key": "matricule",
+											"value": "pari"
+										},
+										{
+											"key": "date-naissance",
+											"value": "1999-11-09"
+										},
+										{
+											"key": "rang",
+											"value": "51713454"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_5000\",\n   \"message\": \"Une erreur technique inattendue est survenue pendant l'exécution de l'opération demandée. Veuillez réitérer votre demande. Si le problème persiste, merci de contacter le support.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Réponse contenant une liste de bénéficiaires",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires?matricule=pari&date-naissance=1999-11-09&rang=51713454",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									],
+									"query": [
+										{
+											"key": "matricule",
+											"value": "pari"
+										},
+										{
+											"key": "date-naissance",
+											"value": "1999-11-09"
+										},
+										{
+											"key": "rang",
+											"value": "51713454"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"value\": [\n  {\n   \"id\": 21,\n   \"matricule\": \"1741105040302\",\n   \"date-naissance\": \"1974-11-08\",\n   \"rang\": 1,\n   \"nom\": \"Jennings\",\n   \"prenom\": \"philip\"\n  },\n  {\n   \"id\": 1,\n   \"matricule\": \"1590705040302\",\n   \"date-naissance\": \"1959-07-26\",\n   \"rang\": 1,\n   \"nom\": \"Söse\",\n   \"prenom\": \"kaiser\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Authentification non fournie ou incorrecte",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires?matricule=pari&date-naissance=1999-11-09&rang=51713454",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									],
+									"query": [
+										{
+											"key": "matricule",
+											"value": "pari"
+										},
+										{
+											"key": "date-naissance",
+											"value": "1999-11-09"
+										},
+										{
+											"key": "rang",
+											"value": "51713454"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4010\",\n   \"message\": \"L'opération que vous souhaitez exécuter nécessite d'être authentifié. Soit les éléments d'authentification n'ont pas été fournis soit ils sont incorrects.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Permissions insuffisantes",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires?matricule=pari&date-naissance=1999-11-09&rang=51713454",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									],
+									"query": [
+										{
+											"key": "matricule",
+											"value": "pari"
+										},
+										{
+											"key": "date-naissance",
+											"value": "1999-11-09"
+										},
+										{
+											"key": "rang",
+											"value": "51713454"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4030\",\n   \"message\": \"Vous n'avez pas les permissions suffisantes pour pouvoir exécuter l'opération demandée.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Données du bénéficiaire invalides",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires?matricule=pari&date-naissance=1999-11-09&rang=51713454",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									],
+									"query": [
+										{
+											"key": "matricule",
+											"value": "pari"
+										},
+										{
+											"key": "date-naissance",
+											"value": "1999-11-09"
+										},
+										{
+											"key": "rang",
+											"value": "51713454"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4000\",\n   \"message\": \"Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et soumettre à nouveau votre demande.\",\n   \"details\": {\n    \"violations\": [\n     {\n      \"rang\": \"doit être supérieur à 1\"\n     },\n     {\n      \"matricule\": \"doit être de longueur comprise entre 13 et 13\"\n     }\n    ]\n   }\n  }\n ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Met à jour un bénéficiaire existant.",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "<Bearer Token>",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/beneficiaires",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"beneficiaires"
+							]
+						},
+						"description": "Ne permet de mettre à jour que le nom et/ou le prénom.\nLes autres champs du bénéficiaire envoyé servant à son identification."
+					},
+					"response": [
+						{
+							"name": "Authentification non fournie ou incorrecte",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4010\",\n   \"message\": \"L'opération que vous souhaitez exécuter nécessite d'être authentifié. Soit les éléments d'authentification n'ont pas été fournis soit ils sont incorrects.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Permissions insuffisantes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4030\",\n   \"message\": \"Vous n'avez pas les permissions suffisantes pour pouvoir exécuter l'opération demandée.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Bénéficiaire inexistant",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4040\",\n   \"message\": \"La resource demandée n'a pu être trouvée. Merci de vérifier les paramètres de votre requête.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Données du bénéficiaire invalides",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4000\",\n   \"message\": \"Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et soumettre à nouveau votre demande.\",\n   \"details\": {\n    \"violations\": [\n     {\n      \"rang\": \"doit être supérieur à 1\"\n     },\n     {\n      \"matricule\": \"doit être de longueur comprise entre 13 et 13\"\n     }\n    ]\n   }\n  }\n ]\n}"
+						},
+						{
+							"name": "Erreur inattendue",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_5000\",\n   \"message\": \"Une erreur technique inattendue est survenue pendant l'exécution de l'opération demandée. Veuillez réitérer votre demande. Si le problème persiste, merci de contacter le support.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Réponse contenant un bénéficiaire",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"value\": {\n  \"id\": 21,\n  \"matricule\": \"2760305040302\",\n  \"date-naissance\": \"1976-03-23\",\n  \"rang\": 1,\n  \"nom\": \"Jennings\",\n  \"prenom\": \"elizabeth\"\n }\n}"
+						}
+					]
+				},
+				{
+					"name": "Crée un nouveau bénéficiaire.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/beneficiaires",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"beneficiaires"
+							]
+						},
+						"description": "Crée un nouveau bénéficiaire.\nSi l'id est fourni il sera ignoré."
+					},
+					"response": [
+						{
+							"name": "Réponse contenant un bénéficiaire",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"value\": {\n  \"id\": 21,\n  \"matricule\": \"2760305040302\",\n  \"date-naissance\": \"1976-03-23\",\n  \"rang\": 1,\n  \"nom\": \"Jennings\",\n  \"prenom\": \"elizabeth\"\n }\n}"
+						},
+						{
+							"name": "Permissions insuffisantes",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4030\",\n   \"message\": \"Vous n'avez pas les permissions suffisantes pour pouvoir exécuter l'opération demandée.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Erreur inattendue",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_5000\",\n   \"message\": \"Une erreur technique inattendue est survenue pendant l'exécution de l'opération demandée. Veuillez réitérer votre demande. Si le problème persiste, merci de contacter le support.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Bénéficiaire déjà existant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4040\",\n   \"message\": \"La resource demandée n'a pu être trouvée. Merci de vérifier les paramètres de votre requête.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Authentification non fournie ou incorrecte",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4010\",\n   \"message\": \"L'opération que vous souhaitez exécuter nécessite d'être authentifié. Soit les éléments d'authentification n'ont pas été fournis soit ils sont incorrects.\"\n  }\n ]\n}"
+						},
+						{
+							"name": "Données du bénéficiaire invalides",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 13,\n    \"matricule\": \"1670805145024\",\n    \"date-naissance\": \"1967-08-03\",\n    \"rang\": 2,\n    \"nom\": \"Lefebvre\",\n    \"prenom\": \"paul\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/beneficiaires",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"beneficiaires"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"problems\": [\n  {\n   \"id\": \"123e4567-e89c-12d3-a456-426614174000\",\n   \"code\": \"stump_4000\",\n   \"message\": \"Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et soumettre à nouveau votre demande.\",\n   \"details\": {\n    \"violations\": [\n     {\n      \"rang\": \"doit être supérieur à 1\"\n     },\n     {\n      \"matricule\": \"doit être de longueur comprise entre 13 et 13\"\n     }\n    ]\n   }\n  }\n ]\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJraWQiOiJjZXJ0MSIsInR5cCI6IkpXVCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjZXJ0MSIsImF1ZCI6WyJTS01CX0oiLCJIRE1EX00iXSwibmJmIjoxNTk1NDk3MTI1LCJpc3MiOiJjZXJ0MSIsImV4cCI6MTkxMDg1NzEyNSwiaWF0IjoxNTk1NDk3MTI1LCJqdGkiOiI2ZTQxMmMyYS01MjE3LTRhMmItODI4MC1hZWZkYTdiNWYwMGMifQ.OWTW0E0nwvr5u7Ngh82fgMtkbfoRAyASUgayDBe4cmIus3Y_RVjFaAn6M9McI-034pFrIEqQX5ryCj3EaTEUzHk9FYqtD28rZInhTyt9xFouC11Wbzh39G6NDA21DXSrAlta7TzzV4F7mCRhe74upOajkUHsR6JlHvVNddDsReI",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:9001/uc-ctrl-rest-openapi/public/rest"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://152101lpw1.csh-dijon.ramage:9000/sk01j/public/rest",
+			"type": "default",
+			"disabled": true
+		}
+	]
+}

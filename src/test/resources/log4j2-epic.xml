@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<Appenders>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{ISO8601}- %clr{ucCtrlRestOpenApiTest}{blue} - [%clr{%-5level}] [%clr{T-%replace{%t}{.*\-}{}}{magenta}] %clr{%50.50logger{1.}}{cyan} - [%X] - %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="ERROR">
+			<AppenderRef ref="CONSOLE" />
+		</Root>
+	</Loggers>
+</Configuration>

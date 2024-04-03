@@ -1,0 +1,545 @@
+openapi: 3.0.2
+info:
+    title: Beneficiaires
+    version: 3.0.0
+    description: >-
+        Exemple d'API REST du starter-kit TONIC.
+    contact:
+        name: CNAM DDSI DAMSI DDST
+servers:
+    -
+        url: 'http://localhost:8080'
+        description: Pod
+paths:
+    /beneficiaires:
+        summary: Chemin de base des ressources Bénéficiaire.
+        get:
+            tags:
+                - beneficiaire
+            parameters:
+                -
+                    name: matricule
+                    description: le matricule du bénéficiaire
+                    schema:
+                        maxLength: 13
+                        minLength: 13
+                        type: string
+                    in: query
+                    required: true
+                -
+                    name: date-naissance
+                    description: la date de naissance du bénéficiaire
+                    schema:
+                        format: date
+                        type: string
+                    in: query
+                    required: false
+                -
+                    name: rang
+                    description: le rang du bénéficiaire
+                    schema:
+                        format: int32
+                        minimum: 1
+                        type: integer
+                    in: query
+                    required: false
+            responses:
+                '200':
+                    $ref: '#/components/responses/ReponseOkBeneficiaireList'
+                '400':
+                    $ref: '#/components/responses/ReponseKoDonneesInvalides'
+                '401':
+                    $ref: '#/components/responses/ReponseKoNonAuthentifie'
+                '403':
+                    $ref: '#/components/responses/ReponseKoNonPermis'
+                '500':
+                    $ref: '#/components/responses/ReponseKoErreurInattendue'
+            operationId: find
+            summary: >-
+                Liste les bénéficiaires pour un matricule donné, et en option une date de naissance et un
+                rang.
+            description: |-
+                Le matricule est obligatoire.
+                On peut rechercher par matricule seulement;
+                ou par matricule date de naissance et rang.
+                la recherche par matricule et rang seulement ou matricule et date de naissance
+                seulement n'est pas implémentée.
+        put:
+            requestBody:
+                description: Bénéficiaire existant dont les noms et/ou prénoms doivent être mis à jour.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BeneficiaireResource'
+                        examples:
+                            ExamplePut:
+                                value:
+                                    matricule: '1670805145024'
+                                    date-naissance: '1967-08-03'
+                                    rang: 2
+                                    nom: Lefebvre
+                                    prenom: paul
+                required: true
+            tags:
+                - beneficiaire
+            responses:
+                '200':
+                    $ref: '#/components/responses/ReponseOkBeneficiaire'
+                '400':
+                    $ref: '#/components/responses/ReponseKoDonneesInvalides'
+                '401':
+                    $ref: '#/components/responses/ReponseKoNonAuthentifie'
+                '403':
+                    $ref: '#/components/responses/ReponseKoNonPermis'
+                '404':
+                    $ref: '#/components/responses/ReponseKoNonTrouvee'
+                '500':
+                    $ref: '#/components/responses/ReponseKoErreurInattendue'
+            operationId: update
+            summary: Met à jour un bénéficiaire existant.
+            description: |-
+                Ne permet de mettre à jour que le nom et/ou le prénom.
+                Les autres champs du bénéficiaire envoyé servant à son identification.
+        post:
+            requestBody:
+                description: Bénéficiaire qui doit être créé
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BeneficiaireResource'
+                        examples:
+                            ExamplePost:
+                                value:
+                                    matricule: '1670805145024'
+                                    date-naissance: '1967-08-03'
+                                    rang: 2
+                                    nom: Lefebvre
+                                    prenom: paul
+                required: true
+            tags:
+                - beneficiaire
+            responses:
+                '201':
+                    $ref: '#/components/responses/ReponseOkBeneficiaire'
+                '400':
+                    $ref: '#/components/responses/ReponseKoDonneesInvalides'
+                '401':
+                    $ref: '#/components/responses/ReponseKoNonAuthentifie'
+                '403':
+                    $ref: '#/components/responses/ReponseKoNonPermis'
+                '409':
+                    $ref: '#/components/responses/ReponseKoDejaExistante'
+                '500':
+                    $ref: '#/components/responses/ReponseKoErreurInattendue'
+            operationId: create
+            summary: Crée un nouveau bénéficiaire.
+            description: |-
+                Crée un nouveau bénéficiaire.
+                Si l'id est fourni il sera ignoré.
+    '/beneficiaires/{id}':
+        summary: Chemin de base pour les opérations sur des ressources Bénéficiaire identifiées par id technique.
+        get:
+            tags:
+                - beneficiaire
+            responses:
+                '200':
+                    $ref: '#/components/responses/ReponseOkBeneficiaire'
+                '400':
+                    $ref: '#/components/responses/ReponseKoDonneesInvalides'
+                '401':
+                    $ref: '#/components/responses/ReponseKoNonAuthentifie'
+                '403':
+                    $ref: '#/components/responses/ReponseKoNonPermis'
+                '404':
+                    $ref: '#/components/responses/ReponseKoNonTrouvee'
+                '500':
+                    $ref: '#/components/responses/ReponseKoErreurInattendue'
+            operationId: read
+            summary: Lecture d'un bénéficiaire par id.
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BeneficiaireResource'
+                        examples:
+                            ExamplePutId:
+                                value:
+                                    matricule: '1670805145024'
+                                    date-naissance: '1967-08-03'
+                                    rang: 2
+                                    nom: Lefebvre
+                                    prenom: paul
+                required: true
+            tags:
+                - beneficiaire
+            responses:
+                '200':
+                    $ref: '#/components/responses/ReponseOkBeneficiaire'
+                '400':
+                    $ref: '#/components/responses/ReponseKoDonneesInvalides'
+                '401':
+                    $ref: '#/components/responses/ReponseKoNonAuthentifie'
+                '403':
+                    $ref: '#/components/responses/ReponseKoNonPermis'
+                '404':
+                    $ref: '#/components/responses/ReponseKoNonTrouvee'
+                '500':
+                    $ref: '#/components/responses/ReponseKoErreurInattendue'
+            operationId: replace
+            summary: Remplace un bénéficiaire existant par un autre.
+            description: |-
+                Recherche le bénéficiaire dont l'id est celui de l'URL et associe le bénéficiaire
+                fourni à cet id.
+        delete:
+            tags:
+                - beneficiaire
+            responses:
+                '204':
+                    $ref: '#/components/responses/ReponseOkSansContenu'
+                '400':
+                    $ref: '#/components/responses/ReponseKoDonneesInvalides'
+                '401':
+                    $ref: '#/components/responses/ReponseKoNonAuthentifie'
+                '403':
+                    $ref: '#/components/responses/ReponseKoNonPermis'
+                '404':
+                    $ref: '#/components/responses/ReponseKoNonTrouvee'
+                '500':
+                    $ref: '#/components/responses/ReponseKoErreurInattendue'
+            operationId: delete
+            summary: Supprime un bénéficiaire identifié par son id.
+        parameters:
+            -
+                name: id
+                description: l'identifiant du bénéficiaire
+                schema:
+                    format: int64
+                    type: integer
+                in: path
+                required: true
+components:
+    schemas:
+        ProblemResponse:
+            description: Liste de Problem wrappée dans un champ problems.
+            required:
+                - problems
+            type: object
+            properties:
+                problems:
+                    description: liste des problèmes
+                    minItems: 1
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Problem'
+            example:
+                problems:
+                    -
+                        id: 123e4567-e89c-12d3-a456-426614174000
+                        code: stump_4000
+                        message: >-
+                            Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces
+                            données et soumettre à nouveau votre demande.
+                        details:
+                            violations:
+                                -
+                                    rang: doit être supérieur à 1
+                                -
+                                    matricule: doit être de longueur comprise entre 13 et 13
+        Problem:
+            description: Représentation d'un problème / erreur lors du traitement d'une opération.
+            required:
+                - id
+                - message
+                - code
+            type: object
+            properties:
+                id:
+                    format: uuid
+                    description: id unique de l'occurence du problème
+                    type: string
+                code:
+                    description: code problème
+                    type: string
+                message:
+                    description: message détaillé du problème
+                    type: string
+                details:
+                    description: détails supplémentaires optionnels
+                    type: object
+            example:
+                id: 123e4567-e89c-12d3-a456-426614174000
+                code: stump_4000
+                message: >-
+                    Les données fournies dans la requête ne sont pas valides. Veuillez corriger ces données et
+                    soumettre à nouveau votre demande.
+                details:
+                    violations:
+                        -
+                            rang: doit être supérieur à 1
+                        -
+                            matricule: doit être de longueur comprise entre 13 et 13
+        BeneficiaireListResponse:
+            description: Liste de BeneficiaireResource wrappée dans un champ value.
+            required:
+                - value
+            type: object
+            properties:
+                value:
+                    description: ''
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/BeneficiaireResource'
+            example:
+                value:
+                    -
+                        id: 12
+                        matricule: '1670805145024'
+                        date-naissance: '1967-08-03'
+                        rang: 1
+                        nom: Debailly
+                        prenom: guillaume
+                    -
+                        id: 13
+                        matricule: '1670805145024'
+                        date-naissance: '1967-08-03'
+                        rang: 2
+                        nom: Lefebvre
+                        prenom: paul
+                    -
+                        id: 14
+                        matricule: '1670805145024'
+                        date-naissance: '1967-08-03'
+                        rang: 3
+                        nom: Malotru
+                        prenom: légende
+        BeneficiaireResponse:
+            description: BeneficiaireResource wrappée dans un champ value.
+            required:
+                - value
+            type: object
+            properties:
+                value:
+                    $ref: '#/components/schemas/BeneficiaireResource'
+                    description: objet BeneficiaireResource
+            example:
+                value:
+                    id: 21
+                    matricule: '1741105040302'
+                    date-naissance: '1974-11-08'
+                    rang: 1
+                    nom: Jennings
+                    prenom: philip
+        BeneficiaireResource:
+            description: Représentation d'un bénéficiaire.
+            required:
+                - matricule
+                - date-naissance
+                - rang
+                - nom
+                - prenom
+            type: object
+            properties:
+                id:
+                    format: int64
+                    description: l'identifiant unique du bénéficiaire
+                    type: integer
+                    example: 1
+                matricule:
+                    description: le matricule du bénéficiaire
+                    maxLength: 13
+                    minLength: 13
+                    type: string
+                    example: '1670805145024'
+                date-naissance:
+                    format: date
+                    description: la date de naissance du bénéficiaire
+                    type: string
+                    example: '1967-08-03T00:00:00.000Z'
+                rang:
+                    format: int32
+                    description: le rang de naissance du bénéficiaire
+                    minimum: 1
+                    type: integer
+                    example: 1
+                nom:
+                    description: le nom du bénéficiaire
+                    maxLength: 25
+                    minLength: 1
+                    type: string
+                    example: Lefebvre
+                prenom:
+                    description: le prénom du bénéficiaire
+                    maxLength: 25
+                    minLength: 1
+                    type: string
+                    example: paul
+            example:
+                id: 13
+                matricule: '1670805145024'
+                date-naissance: '1967-08-03'
+                rang: 2
+                nom: Lefebvre
+                prenom: paul
+    responses:
+        ReponseKoNonAuthentifie:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ProblemResponse'
+                    examples:
+                        ExampleNonAuthentifie:
+                            value:
+                                problems:
+                                    -
+                                        id: 123e4567-e89c-12d3-a456-426614174000
+                                        code: stump_4010
+                                        message: >-
+                                            L'opération que vous souhaitez exécuter nécessite d'être
+                                            authentifié. Soit les éléments d'authentification n'ont pas été
+                                            fournis soit ils sont incorrects.
+            description: Authentification non fournie ou incorrecte
+        ReponseOkBeneficiaire:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/BeneficiaireResponse'
+                    examples:
+                        ExampleOkBeneficiaire:
+                            value:
+                                value:
+                                    id: 21
+                                    matricule: '2760305040302'
+                                    date-naissance: '1976-03-23'
+                                    rang: 1
+                                    nom: Jennings
+                                    prenom: elizabeth
+            description: Réponse contenant un bénéficiaire
+        ReponseKoNonPermis:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ProblemResponse'
+                    examples:
+                        ExampleNonPermis:
+                            value:
+                                problems:
+                                    -
+                                        id: 123e4567-e89c-12d3-a456-426614174000
+                                        code: stump_4030
+                                        message: >-
+                                            Vous n'avez pas les permissions suffisantes pour pouvoir exécuter
+                                            l'opération demandée.
+            description: Permissions insuffisantes
+        ReponseKoErreurInattendue:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ProblemResponse'
+                    examples:
+                        ExampleErreurInattendue:
+                            value:
+                                problems:
+                                    -
+                                        id: 123e4567-e89c-12d3-a456-426614174000
+                                        code: stump_5000
+                                        message: >-
+                                            Une erreur technique inattendue est survenue pendant l'exécution
+                                            de l'opération demandée. Veuillez réitérer votre demande. Si le
+                                            problème persiste, merci de contacter le support.
+            description: Erreur inattendue
+        ReponseKoNonTrouvee:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ProblemResponse'
+                    examples:
+                        ExampleNonTrouvee:
+                            value:
+                                problems:
+                                    -
+                                        id: 123e4567-e89c-12d3-a456-426614174000
+                                        code: stump_4040
+                                        message: >-
+                                            La resource demandée n'a pu être trouvée. Merci de vérifier les
+                                            paramètres de votre requête.
+            description: Bénéficiaire inexistant
+        ReponseKoDejaExistante:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ProblemResponse'
+                    examples:
+                        ExampleDejaExistante:
+                            value:
+                                problems:
+                                    -
+                                        id: 123e4567-e89c-12d3-a456-426614174000
+                                        code: stump_4040
+                                        message: >-
+                                            La resource demandée n'a pu être trouvée. Merci de vérifier les
+                                            paramètres de votre requête.
+            description: Bénéficiaire déjà existant
+        ReponseKoDonneesInvalides:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ProblemResponse'
+                    examples:
+                        ExampleDonneesInvalides:
+                            value:
+                                problems:
+                                    -
+                                        id: 123e4567-e89c-12d3-a456-426614174000
+                                        code: stump_4000
+                                        message: >-
+                                            Les données fournies dans la requête ne sont pas valides. Veuillez
+                                            corriger ces données et soumettre à nouveau votre demande.
+                                        details:
+                                            violations:
+                                                -
+                                                    rang: doit être supérieur à 1
+                                                -
+                                                    matricule: doit être de longueur comprise entre 13 et 13
+            description: Données du bénéficiaire invalides
+        ReponseOkSansContenu:
+            description: Réponse indiquant un succès mais sans contenu retourné
+        ReponseOkBeneficiaireList:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/BeneficiaireListResponse'
+                    examples:
+                        ExampleBeneficiaireList:
+                            value:
+                                value:
+                                    -
+                                        id: 21
+                                        matricule: '1741105040302'
+                                        date-naissance: '1974-11-08'
+                                        rang: 1
+                                        nom: Jennings
+                                        prenom: philip
+                                    -
+                                        id: 1
+                                        matricule: '1590705040302'
+                                        date-naissance: '1959-07-26'
+                                        rang: 1
+                                        nom: Söse
+                                        prenom: kaiser
+            description: Réponse contenant une liste de bénéficiaires
+    securitySchemes:
+        Authapp-V3:
+            scheme: bearer
+            type: http
+            description: Securité par jetons Authapp-V3 (JWT) CNAM.
+security:
+    -
+        Authapp-V3: []
+tags:
+    -
+        name: beneficiaire
+        description: gestion des bénéficiaires
+externalDocs:
+    description: Documentation use-case 'controller REST OpenAPI' (uc-ctrl-rest-openapi)
+    url: 'http://pad-st.cnamts.fr/pad-ddst/fabricant/dait/stump/site/stump/21.1.0/uc-ctrl-rest-openapi.html'

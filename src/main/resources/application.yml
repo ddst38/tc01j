@@ -1,0 +1,52 @@
+server:
+  port: 8081
+  
+logging:
+  level:
+    org.springframework: info
+
+toni:
+  security:
+    oauth2:
+      issuer-uri: http://localhost:8080/realms/test
+#      roles-map:
+#        TONIC_ADMIN: ROLE_BENEF_READ,ROLE_BENEF_WRITE
+#        TONIC_CLIENT: ROLE_BENEF_READ
+#    auth-app-v3:
+#      client:
+#         entete-v3: true
+#         claims-aud: uc-ctrl-rest-openapi
+#         repertoire-cle: ./authappv3-certs
+#         password: cert1
+#         nom-application: cert1
+#         validite: 315360000
+
+openapi:
+  contract.location: "classpath:openapi-beneficiaires-2.0.0.yml"
+ 
+usecase:
+  provider:
+    rest:
+       url: "http://localhost:8080/beneficiaires/1"
+    memory:
+      beneficiaires:
+        - matricule: 1990197000001
+          date-naissance: "1999-01-31"
+          rang: 1
+          nom: Martini
+          prenom: Rossé
+        - matricule: 2951201000001
+          date-naissance: "1995-12-31"
+          rang: 1
+          nom: Martini
+          prenom: Bianca
+        - matricule: 2951201000001
+          date-naissance: "2018-12-31"
+          rang: 1
+          nom: Martini
+          prenom: Petito
+        - matricule: 2951201000001
+          date-naissance: "2018-12-31"
+          rang: 2
+          nom: Martini
+          prenom: Petita

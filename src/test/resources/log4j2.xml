@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<Appenders>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{ISO8601}- %clr{ucCtrlRestOpenApiTest}{blue} - [%clr{%-5level}] [%clr{T-%replace{%t}{.*\-}{}}{magenta}] %clr{%50.50logger{1.}}{cyan} - [%X] - %msg%n" />
+		</Console>
+		
+		<File name="appender_appli_file" fileName="./target/logs/SK01_J-appli.log">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} - ucCtrlRestOpenApiTest - [-5level] [T-%replace{%t}{.*\-}{}] %50.50logger{1.} - [%X] - %msg%n</Pattern>
+			</PatternLayout>			
+		</File>
+	</Appenders>
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="CONSOLE" />
+			<AppenderRef ref="appender_appli_file" />
+		</Root>
+		<!-- CNAM -->
+		<Logger name="fr.cnamts" level="info" />
+		<Logger name="fr.cnam.toni" level="debug" />
+		<Logger name="fr.cnamts.securite" level="debug" />
+
+		<!-- libs -->
+		<Logger name="org.springframework" level="info" />
+		<Logger name="org.springframework.security" level="info" />
+	</Loggers>
+</Configuration>

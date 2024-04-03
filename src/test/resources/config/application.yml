@@ -1,0 +1,55 @@
+# ------------------------------------------------------------------------------
+# Fichier de Configuration YAML de test de l'application
+# Il définit:
+# - le profil Spring par défaut si le test est lancé sans spécicfier de profil
+# - les valeurs de propriétés en fonction de différents profils de tests
+#   (test-local, test-st3): utiles par exemples pour les URLs à utiliser
+#   pour les tests d'intégration système de plusieurs environnements
+# - ce fichier est placé dans un sous-répertoire config du classpath
+#   pour être plus prioritaire et venir surcharger les properties
+#   du fichier src/main/resources/application.yml
+# Pour lancer les tests d'intégration avec un profil autre que celui par défaut
+# par exemple avec le profil test-st3
+# - mvn verify -Pfailsafe -Dspring.profiles.active=test-st3
+# Pour les lancer (avec uniquement la compile + execution des SITs):
+# - mvn test-compile failsafe:integration-test failsafe:verify
+# - mvn test-compile failsafe:integration-test failsafe:verify -Dspring.profiles.active=test-st3
+# ------------------------------------------------------------------------------
+---
+# Paramètres de sécurité (surcharge de ceux par défaut)
+# ------------------------------------------------------------------------------
+sk:
+  security:
+    authent-mode:
+      authapp-v3:
+        required-secure-channel: false
+        public-keys-dir: ./dev/cles
+        accepted-audience-claims:
+        - SKMB_J
+        - SK01_J
+spring:
+  # Définition du Profil par défaut pour les tests
+  profiles:
+    active:
+    - test-local
+  # changement de la locale en français pour les tests sur les messages 
+  # de validation qui sont localisés
+  web.locale: fr_FR
+---
+# Config du profil 'test-local'
+spring.config.activate.on-profile: test-local
+
+# URLs pour les tests 'system integration' avec le profil 'test-local'
+sk.test.system.url:
+  rest:
+    public: "http://localhost:9001/uc-ctrl-rest-openapi/public/rest"
+    internal: "http://localhost:9001/uc-ctrl-rest-openapi/internal/rest"
+---
+# Config du profil 'test-st3'
+spring.config.activate.on-profile: test-st3
+
+# URLs pour les tests 'system integration' avec le profil 'test-st3'
+sk.test.system.url:
+  rest:
+    public: "http://152101lj1d.csh-dijon.ramage:9001/sk01j/public/rest"
+    internal: "http://152101lj1d.csh-dijon.ramage:9001/sk01j/internal/rest"

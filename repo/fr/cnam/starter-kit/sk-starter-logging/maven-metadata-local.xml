@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>fr.cnam.starter-kit</groupId>
+  <artifactId>sk-starter-logging</artifactId>
+  <versioning>
+    <versions>
+      <version>22.11.2-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20230927122948</lastUpdated>
+  </versioning>
+</metadata>

@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-spring-boot-starters</artifactId>
+		<version>23.10.0</version>
+	</parent>
+
+	<artifactId>sk-starter-jpa-stats</artifactId>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+
+	<dependencies>
+		<!-- Librarie amené par ce starter -->
+		<!-- Librarie permettant de proxifier un Datasource et d'intercepter' les requetes produites par JPA' -->
+		<dependency>
+			<groupId>net.ttddyy</groupId>
+			<artifactId>datasource-proxy</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+		<!-- Permet de attribuer a tous les JpaRepository un aspect a la volé pour permettre de recuperer le nom de la méthode et le nom de la classe -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+		<!-- Starters et librairies de test -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+	</dependencies>
+
+</project>

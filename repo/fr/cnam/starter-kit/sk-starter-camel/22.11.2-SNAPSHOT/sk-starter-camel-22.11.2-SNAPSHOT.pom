@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-spring-boot-starters</artifactId>
+		<version>22.11.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-starter-camel</artifactId>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+
+	<dependencies>
+		<!-- Dépendances amenées par ce starter -->
+		<dependency>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- Dépendances optionelles de ce starter -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-rest</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- Starter pour les tests -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-spring-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

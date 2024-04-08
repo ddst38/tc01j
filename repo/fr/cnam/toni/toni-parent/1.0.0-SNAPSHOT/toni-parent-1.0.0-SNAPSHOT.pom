@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.cnam.toni</groupId>
+    <artifactId>toni-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>TONIC : ${project.artifactId}</name>
+    <description>POM ancêtre des POMs parents à utiliser pour les modules basées sur un starter-kit TONIC</description>
+
+    <properties>
+        <toni.version>${project.version}</toni.version>
+
+        <!-- Encoding et version Java -->
+        <java.version>21</java.version>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <project.encoding>UTF-8</project.encoding>
+        <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+
+        <!-- Versions des plugins Maven -->
+        <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+        <maven-remote-resources-plugin.version>3.1.0</maven-remote-resources-plugin.version>
+        <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
+
+        <!-- Versions des dépendances-->
+        <spring-boot.version>3.1.4</spring-boot.version>
+        <openapi-generator.version>7.3.0</openapi-generator.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
+        <openapi-swagger.version>2.2.20</openapi-swagger.version>
+        <lombok.version>1.18.30</lombok.version>
+        <dbunit.version>2.6.0</dbunit.version>
+        <rider.version>1.7.3</rider.version>
+        <assertj.db.version>2.0.0</assertj.db.version>
+        <cxf.version>4.0.3</cxf.version>
+
+        
+        <!-- ******************* -->
+		<!-- AMAZON S3 & S3mock -->
+		<!-- ******************* -->
+		<amazon-s3.version>2.17.210</amazon-s3.version>
+		<s3mock-2-13.version>0.2.6</s3mock-2-13.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Les dépendances vers l'ensemble des starters utilisables dans un
+                module Java basé sur le kit TONIC -->
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-core</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+             <dependency>
+                <groupId>fr.cnam.skto</groupId>
+                <artifactId>skto-starter-amazon-s3</artifactId>
+                <version>${skto.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-crypto</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-rest</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-jdbc</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-test</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-test-db</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-security-web-core</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+<!--			<dependency>	-->
+<!--                <groupId>fr.cnam.toni</groupId>-->
+<!--				<artifactId>toni-starter-security-rest</artifactId>-->
+<!--                <version>${toni.version}</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-security-oauth2</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-security-authapp-v3</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-security-client-authapp-v2</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.cnam.toni</groupId>
+                <artifactId>toni-starter-security-client-authapp-v3</artifactId>
+                <version>${toni.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+           <!-- <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${openapi-swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-core</artifactId>
+                <version>${openapi-swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${openapi-swagger.version}</version>
+            </dependency>-->
+
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-core</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-bindings-soap</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http-jetty</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>${dbunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.database-rider</groupId>
+                <artifactId>rider-junit5</artifactId>
+                <version>${rider.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.database-rider</groupId>
+                <artifactId>rider-spring</artifactId>
+                <version>${rider.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-db</artifactId>
+                <version>${assertj.db.version}</version>
+                <scope>test</scope>
+            </dependency>
+        <dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+			<version>${amazon-s3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.findify</groupId>
+			<artifactId>s3mock_2.13</artifactId>
+			<version>${s3mock-2-13.version}</version>
+		</dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- Plugins Maven standards -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+				<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <version>${maven-remote-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>${openapi-generator.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <exclude>*:log4j-slf4j2-impl</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

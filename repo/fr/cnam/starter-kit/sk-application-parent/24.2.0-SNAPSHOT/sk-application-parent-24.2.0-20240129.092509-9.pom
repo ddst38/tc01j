@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-global-parent</artifactId>
+		<version>24.2.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-application-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>POM ancêtre des POMs parents à utiliser pour les applications basées sur un starter-kit STUMP Java</description>
+
+	<properties>
+		<!-- Attention les properties de ce pom doivent synchronisé avec ../sk-spring-boot/pom.xml 
+			sauf properties de build -->
+
+		<!-- Build -->
+		<!-- Repertoire liv ou mettre le contenu qui doit-être embarqué dans le 
+			tar.gz Cette propriété doit-être surchargée via -Dbuild.liv.dir=$CNQD_CVS_LIVREP 
+			pour un 'build-legacy' par la plateforme de fabrication via build.sh -->
+		<build.liv.dir>./liv</build.liv.dir>
+		
+		
+		<!-- Repertoire liv ou mettre le contenu qui doit-être embarqué dans le 
+			tar.gz Cette propriété doit-être surchargée via -Dbuild.label.cnam=$CNQD_CVS_LABEL 
+			pour un 'build-legacy' par la plateforme de fabrication via build.sh -->
+		<build.label.cnam>${sk.version.cnam}</build.label.cnam>
+
+	</properties>
+
+	<modules>
+		<module>sk-batch-application-parent</module>
+		<module>sk-web-application-parent</module>
+		<module>sk-cmdline-application-parent</module>
+	</modules>
+
+	<build>
+		<!-- Spécificités des builds des applications STUMP / Spring Boot -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<executions>
+						<!-- Génération de la version au format CNAM ABCD010203J -->
+						<execution>
+							<id>parse-maven-version</id>
+							<goals>
+								<goal>parse-version</goal>
+							</goals>
+							<configuration>
+								<formatMajor>%02d</formatMajor>
+								<formatMinor>%02d</formatMinor>
+								<formatIncremental>%02d</formatIncremental>
+							</configuration>
+						</execution>
+						<execution>
+							<id>generate-cnam-version</id>
+							<goals>
+								<goal>regex-property</goal>
+							</goals>
+							<configuration>
+								<name>sk.version.cnam</name>
+								<value>${sk.code.module}:${formattedVersion.majorVersion}${formattedVersion.minorVersion}${formattedVersion.incrementalVersion}</value>
+								<regex>(.+)_(.+):(\d+)</regex>
+								<replacement>$1$3$2</replacement>
+								<failIfNoMatch>true</failIfNoMatch>
+							</configuration>
+						</execution>
+						<!-- Génération de la property prefix des variables KS = code module 
+							en minuscule -->
+						<execution>
+							<id>generate-ks-var-prefix</id>
+							<goals>
+								<goal>regex-property</goal>
+							</goals>
+							<configuration>
+								<name>sk.ks.var.prefix</name>
+								<value>${sk.code.module}</value>
+								<regex>(.*)</regex>
+								<replacement>$1</replacement>
+								<toLowerCase>true</toLowerCase>
+								<failIfNoMatch>true</failIfNoMatch>
+							</configuration>
+						</execution>
+						<!-- Génération du nom l'artifact final -->
+						<execution>
+							<id>generate-sk-target-artifact</id>
+							<goals>
+								<goal>regex-property</goal>
+							</goals>
+							<configuration>
+								<name>sk.target.artifact</name>
+								<value>${sk.code.module}</value>
+								<regex>(.*)_(.*)</regex>
+								<replacement>$1$2</replacement>
+								<toLowerCase>true</toLowerCase>
+								<failIfNoMatch>true</failIfNoMatch>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Nettoyage du dossier liv -->
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>${build.liv.dir}</directory>
+								<followSymlinks>false</followSymlinks>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+				<!-- Création du livrable -->
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>copy-install-conf</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${build.liv.dir}/${build.label.cnam}/conf</outputDirectory>
+								<overwrite>true</overwrite>
+								<resources>
+									<resource>
+										<directory>install/conf</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+								<escapeString>\</escapeString>
+							</configuration>
+						</execution>
+						<execution>
+							<id>copy-install-script</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${build.liv.dir}/${build.label.cnam}</outputDirectory>
+								<overwrite>true</overwrite>
+								<resources>
+									<resource>
+										<directory>install/script</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+						<execution>
+							<id>copy-install-dico</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${build.liv.dir}/${build.label.cnam}/dico</outputDirectory>
+								<overwrite>true</overwrite>
+								<resources>
+									<resource>
+										<directory>install/dico</directory>
+										<include>*.dico</include>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+						<execution>
+							<id>copy-script</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${build.liv.dir}/${build.label.cnam}/script</outputDirectory>
+								<overwrite>true</overwrite>
+								<resources>
+									<resource>
+										<directory>script</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+						<execution>
+							<id>copy-bin</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${build.liv.dir}/${build.label.cnam}/${build.bin.dir}</outputDirectory>
+								<resources>
+									<resource>
+										<directory>target</directory>
+										<includes>
+											<include>*.war</include>
+											<include>*.jar</include>
+										</includes>
+										<filtering>false</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

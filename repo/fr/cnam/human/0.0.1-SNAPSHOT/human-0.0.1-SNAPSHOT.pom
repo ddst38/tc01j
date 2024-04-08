@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.cnam</groupId>
+	<artifactId>human</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>human</name>
+	<description>Human project for Vue.js</description>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <!-- NB! Set <version> to the latest released version of frontend-maven-plugin, like in README.md -->
+                <version>1.12.1</version>
+
+                <configuration>
+                    <installDirectory>target</installDirectory>
+                </configuration>
+
+                <executions>
+					<execution>
+						<id>install node and pnpm</id>
+						<goals>
+							<goal>install-node-and-pnpm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v16.20.2</nodeVersion>
+							<pnpmVersion>v8.15.4</pnpmVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>pnpm</id>
+						<goals>
+							<goal>pnpm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+<!--					<execution>
+						<id>yarn serve</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<arguments>run serve</arguments>
+						</configuration>
+					</execution>-->
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

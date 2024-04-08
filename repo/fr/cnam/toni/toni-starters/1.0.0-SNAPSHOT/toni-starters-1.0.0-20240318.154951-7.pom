@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>fr.cnam.toni</groupId>
+        <artifactId>toni-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../toni-parent</relativePath>
+    </parent>
+
+    <artifactId>toni-starters</artifactId>
+    <packaging>pom</packaging>
+
+    <name>TONIC : ${project.artifactId}</name>
+    <description>Projet aggregateur de tous les sous-projets de starters pour le kit TONIC</description>
+
+    <modules>
+        <module>toni-starter-core</module>
+        <module>toni-starter-amazon-s3</module>
+        <module>toni-starter-test</module>
+        <module>toni-starter-rest</module>
+        <module>toni-starter-jdbc</module>
+        <module>toni-starter-crypto</module>
+        <module>toni-starter-test-db</module>
+        <module>toni-starter-security-oauth2</module>
+        <module>toni-starter-security-authapp-v3</module>
+        <module>toni-starter-security-client-authapp-v2</module>
+        <module>toni-starter-security-client-authapp-v3</module>
+        <module>toni-starter-soap</module>
+<!--        <module>toni-starter-security-rest</module>-->
+        <module>toni-starter-security-web-core</module>
+    </modules>
+
+</project>

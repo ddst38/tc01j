@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>wwj2</artifactId>
+	<groupId>fr.cnam.tuxedo</groupId>
+
+	<version>1.1.1</version>
+
+
+	<packaging>jar</packaging>
+
+	<distributionManagement>
+		<repository>
+			<id>java-release</id>
+			<name>java-release</name>
+			<url>${env.REPOSITORY_HOST_URL}/java-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>java-snapshot</id>
+			<name>java-snapshot</name>
+			<url>${env.REPOSITORY_HOST_URL}/java-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
+	<name>WW_J2 (basé sur le starter-kit STUMP Java Librairie)</name>
+	<description>WW_J2 (basé sur le starter-kit STUMP Java Librairie)</description>
+
+	<properties>
+
+		<!-- Encoding et version Java -->
+		<project.encoding>UTF-8</project.encoding>
+		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- API de Log Log4j 1.2.x utilisé en interne par cette librairie -->
+		<log4j1.version>1.2.17</log4j1.version>
+		<!-- Implémentation Concrete de Log Log4j 2.x et bridge Log4j1 -> Log4j2 utilisée pour les tests -->
+		<log4j2.version>2.13.2</log4j2.version>
+		<cxf.version>3.3.1</cxf.version>
+	</properties>
+
+
+
+	<dependencies>
+		<!-- API de Log interne: Log4j 1.2 -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>${log4j2.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- S8_H pour Authapp -->
+		<dependency>
+			<groupId>fr.cnamts.s8h</groupId>
+			<artifactId>s8h-CryptoToolBox</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
+		<!-- Implémentation JAX-WS : CXF pour Stump pour l'instant -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<!-- Implémentation log4j2 pour les tests uniquement et bridges depuis SLF4J et LOG4J 1.2 -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j2.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-remote-resources-plugin</artifactId>
+				<version>1.6.0</version>
+				<configuration>
+					<resourceBundles>
+						<!-- groupe:module:version du jar contenant les ressources à récupérer -->
+						<resourceBundle>fr.cnam.tuxedo:wwws:1.0.0</resourceBundle>
+					</resourceBundles>
+				</configuration>
+				<executions>
+					<execution>
+						<id>LoadWsdl</id>
+						<!-- Phase initialize qui précède la phase generate-resources où la 
+							génération des sources est exécutée -->
+						<phase>initialize</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>generate-stubs</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<wsdlOptions>
+								<!-- Génération des expositions SOAP -->
+								<wsdlOption>
+									<wsdl>
+										${project.build.directory}/maven-shared-archive-resources/wsdl/server/SALT_DonneesEchangeSFR/v1.0/SALT_DonneesEchangeSFR_v1.0.wsdl
+									</wsdl>
+									<wsdlLocation>
+										classpath:/wsdl/server/SALT_DonneesEchangeSFR/v1.0/SALT_DonneesEchangeSFR_v1.0.wsdl
+									</wsdlLocation>
+									<extraargs>
+										<extraarg>-verbose</extraarg>
+										<extraarg>-impl</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>fr.cnamts.ww.stub.ws.salt</extraarg>
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>publier-jars</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>./pub/lib</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./target</directory>
+									<includes>
+										<include>*.jar</include>
+									</includes>
+									<excludes>
+										<exclude>*-sources.jar</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

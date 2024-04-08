@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent Spring Boot définissant le build de module basés sur Spring 
+		Boot -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.0</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<groupId>fr.cnam.starter-kit</groupId>
+	<artifactId>sk-global-parent</artifactId>
+	<version>23.10.0</version>
+	<packaging>pom</packaging>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>POM ancêtre des POMs parents à utiliser pour les modules basées sur un starter-kit STUMP Java</description>
+
+	<modules>
+		<module>sk-application-parent</module>
+		<module>sk-library-parent</module>
+	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>java-release</id>
+			<name>java-release</name>
+			<url>${env.REPOSITORY_HOST_URL}/java-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>java-snapshot</id>
+			<name>java-snapshot</name>
+			<url>${env.REPOSITORY_HOST_URL}/java-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<!-- Attention les properties de ce pom doivent être synchronisées avec 
+			../sk-spring-boot/pom.xml, sauf properties de build -->
+
+		<!-- Encoding et version Java -->
+		<project.encoding>UTF-8</project.encoding>
+		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.parameters>true</maven.compiler.parameters>
+
+		<!-- ******* -->
+		<!-- Plugins -->
+		<!-- ******* -->
+		<jacoco.plugin.version>0.8.5</jacoco.plugin.version>
+		<cxf-codegen-plugin.version>3.3.1</cxf-codegen-plugin.version>
+		<remote-resources-plugin.version>1.6.0</remote-resources-plugin.version>
+		<maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
+
+		<!-- *********** -->
+		<!-- Dépendances -->
+		<!-- *********** -->
+		<dbunit.version>2.6.0</dbunit.version>
+		<rider.version>1.7.3</rider.version>
+		<assertj.db.version>2.0.0</assertj.db.version>
+
+		<!-- *********** -->
+		<!-- Starters SK -->
+		<!-- *********** -->
+		<starter.version>23.10.0</starter.version>
+
+		<!-- ************* -->
+		<!-- Sécurité S8_H -->
+		<!-- ************* -->
+		<s8h.version>2.0.7</s8h.version>
+
+		<!-- *************** -->
+		<!-- PAT-SALT Client -->
+		<!-- *************** -->
+		<wwj2.version>1.1.5</wwj2.version>
+
+		<!-- ************* -->
+		<!-- DESIR -->
+		<!-- ************* -->
+		<yoh.version>4.1.21</yoh.version>
+		<yoh.classifier>st3.0-rhel7-wls12cr2-pub</yoh.classifier>
+
+		<!-- ************* -->
+		<!-- ESPOIR -->
+		<!-- ************* -->
+		<bimch.version>2.3.10</bimch.version>
+		<bimch.classifier>st3.0-rhel7-wls12cr2-pub</bimch.classifier>
+
+		<common.lang.version>2.6</common.lang.version>
+
+		<!-- ******************* -->
+		<!-- AVRO & SPRING KAFKA -->
+		<!-- ******************* -->
+		<kafka.avro.version>5.5.0</kafka.avro.version>
+		<avro.version>1.9.2</avro.version>
+
+		<!-- ************* -->
+		<!-- SPARK -->
+		<!-- ************* -->
+		<spark.version>2.3.2</spark.version>
+		<janino.version>3.0.8</janino.version>
+
+		<!-- ************* -->
+		<!-- JFairy -->
+		<!-- ************* -->
+		<jfairy.version>0.5.9-SNAPSHOT</jfairy.version>
+
+		<!-- ***** -->
+		<!-- HBase -->
+		<!-- ***** -->
+		<hadoop-hdfs.version>3.3.0</hadoop-hdfs.version>
+		<hbase-client.version>2.3.2</hbase-client.version>
+
+		<!-- ******* -->
+		<!-- OpenAPI -->
+		<!-- ******* -->
+		<openapi-generator.version>5.3.0</openapi-generator.version>
+		<openapi-springdoc.version>1.5.1</openapi-springdoc.version>
+		<openapi-swagger.version>1.6.2</openapi-swagger.version>
+		<!-- Utilisé par le générateur client Java pour les attributs non obligatoires -->
+		<google-findbugs-jsr305.version>3.0.2</google-findbugs-jsr305.version>
+
+		<!-- Utilisé par l'utilitaire d'criture de fichier de rejet Batch -->
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
+
+		<!-- ****** -->
+		<!-- Caster -->
+		<!-- ****** -->
+		<socah.version>1.0.0</socah.version>
+		<socah.classifier>multipub-pub</socah.classifier>
+
+		<!-- ***************** -->
+		<!-- Driver PostgreSQL -->
+		<!-- ***************** -->
+		<postgresql.version>42.3.3</postgresql.version>
+
+		<!-- ************** -->
+		<!-- Drivers Oracle -->
+		<!-- ************** -->
+		<!-- On fixe la version d'Oracle à la dernière version release de la version 
+			majeure utilisée par la CNAM. Info: drivers 19c supportent les bases 21c, 
+			19c, 18c, 12.2c En environnement déployé sous Tomcat (Datasource JNDI obligatoire) 
+			la librairie et sa version sont géré par le cadre national Tomcat et la version 
+			ci-dessous n'est pas prise en compte. -->
+		<oracle-database.version>19.14.0.0</oracle-database.version>
+
+		<!-- ************************************************************************************************ -->
+		<!-- Log4j2 -->
+		<!-- version forcée pour la faille sécurité: https://www.cert.ssi.gouv.fr/alerte/CERTFR-2021-ALE-022/ -->
+		<!-- ************************************************************************************************ -->
+		<log4j2.version>2.17.1</log4j2.version>
+
+		<!-- ******************* -->
+		<!-- Nimbus & Jose -->
+		<!-- ******************* -->
+		<nimbus.jose.version>9.20</nimbus.jose.version>
+		<openid.connect.client.version>1.1.12</openid.connect.client.version>
+		<json.smart.version>2.4.8</json.smart.version>
+
+		<!-- Pour les log asynchrones avec log4j2 -->
+		<lmax-disruptor.version>3.4.4</lmax-disruptor.version>
+
+
+		<opentelemetry-bom.version>1.27.0</opentelemetry-bom.version>
+		<opentelemetry-instrumentation-bom.version>1.27.0-alpha</opentelemetry-instrumentation-bom.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<!-- Lancement des tests failsafe (**/IT*.java, **/*IT.java, **/*ITCase.java 
+				seulement avec profile failsafe: mvn verify -Pfailsafe -->
+			<id>failsafe</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Les dépendances vers l'ensemble des starters utilisables dans un 
+				module Java basé sur le SK STUMP -->
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-rest</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-client-authapp-v3</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-client-authapp-v2</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jdbc</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jpa</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-pat</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-camel</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-cxf</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-espoir</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-desir</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-avro</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-kafka-spring</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-spark</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-kafka-stream</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-hbase</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-service</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-agent</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-portail-agent</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-oauth2</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-authapp-v3</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-authapp-v2</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-server</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-soap</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jms-weblogic</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-exitstatus</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-exceptions</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-metrics</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-purge</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-caster</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-redis</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-ehcache</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-ws-passeport</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-ws-passeport-rnh</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jpa-stats</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-amazon-s3</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-open-telemetry</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<!-- Dépendances vers les starters de tests -->
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test</artifactId>
+				<version>${starter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-security</artifactId>
+				<version>${starter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-amazon-s3</artifactId>
+				<version>${starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-jdbc</artifactId>
+				<version>${starter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-batch</artifactId>
+				<version>${starter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-db</artifactId>
+				<version>${starter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- Dépendances hors starters du SK -->
+			<dependency>
+				<groupId>fr.cnamts.s8h</groupId>
+				<artifactId>s8h-CryptoToolBox</artifactId>
+				<version>${s8h.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>${openapi-springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${openapi-swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>${google-findbugs-jsr305.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commons-beanutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lmax</groupId>
+				<artifactId>disruptor</artifactId>
+				<version>${lmax-disruptor.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.opentelemetry</groupId>
+				<artifactId>opentelemetry-bom</artifactId>
+				<version>${opentelemetry-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.opentelemetry.instrumentation</groupId>
+				<artifactId>opentelemetry-instrumentation-bom-alpha</artifactId>
+				<version>${opentelemetry-instrumentation-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.opentelemetry.instrumentation</groupId>
+				<artifactId>opentelemetry-log4j-context-data-2.17-autoconfigure</artifactId>
+				<version>${opentelemetry-instrumentation-bom.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<!-- Spécificités des builds des applications STUMP / Spring Boot -->
+		<pluginManagement>
+			<plugins>
+				<!-- Test du livrable -->
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<!-- exclusions des tests en *Test ayant le tag: exclude-from-ci généralement 
+							ce tag sera posé sur des classes de test qui nécessitent la disponibilité 
+							d'un système externe (ex: base de données) et qui ne doivent donc pas être 
+							exécutés dans l'environnement de build Jenkins -->
+						<excludedGroups>exclude-from-ci</excludedGroups>
+						<!-- ${surefireArgLine} permet de récupérer les propriétés settée par 
+							le jacoco plugin (agent java) -->
+						<argLine>${surefireArgLine}</argLine>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.plugin.version}</version>
+					<executions>
+						<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+							is passed as VM argument when Maven the Surefire plugin is executed. -->
+						<execution>
+							<id>pre-unit-test</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<!-- Sets the path to the file which contains the execution data. -->
+								<destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
+								<!-- Sets the name of the property containing the settings for JaCoCo 
+									runtime agent. -->
+								<propertyName>surefireArgLine</propertyName>
+							</configuration>
+						</execution>
+						<!-- Ensures that the code coverage report for unit tests is created 
+							after unit tests have been run. -->
+						<execution>
+							<id>post-unit-test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+							<configuration>
+								<!-- Sets the path to the file which contains the execution data. -->
+								<dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
+								<!-- Sets the output directory for the code coverage report. -->
+								<outputDirectory>${project.build.directory}/coverage-reports/jacoco-ut</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Plugin OpenAPI-Generator -->
+				<plugin>
+					<groupId>org.openapitools</groupId>
+					<artifactId>openapi-generator-maven-plugin</artifactId>
+					<version>${openapi-generator.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-remote-resources-plugin</artifactId>
+					<version>${remote-resources-plugin.version}</version>
+				</plugin>
+				<!-- Plugin cfx pour générer les stubs Web Services -->
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf-codegen-plugin.version}</version>
+				</plugin>
+				<!-- Génération d'un build-info.properties utilisé par actuator (/internal/version) 
+					et re-packaging spring-boot pour lancement en ligne de commande et tomcat -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>build-info</id>
+							<goals>
+								<goal>build-info</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-no-snapshots</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireReleaseDeps>
+									<message>[WARNING] Présence de Snapshots détecté !</message>
+									<onlyWhenRelease>true</onlyWhenRelease>
+									<excludes>
+										<exclude>fr.cnam.starter-kit.outils:jfairy-fr</exclude>
+									</excludes>
+								</requireReleaseDeps>
+							</rules>
+							<fail>false</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

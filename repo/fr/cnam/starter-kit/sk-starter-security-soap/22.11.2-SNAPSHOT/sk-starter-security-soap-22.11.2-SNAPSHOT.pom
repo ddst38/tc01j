@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-spring-boot-starters</artifactId>
+		<version>22.11.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-starter-security-soap</artifactId>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+
+	<dependencies>
+		<!-- Les starters Spring Boot SK amenés par ce starter -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-security-web-core</artifactId>
+		</dependency>
+
+		<!-- Les starters Spring Boot amenés par ce starter -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-soap-server</artifactId>
+		</dependency>
+
+		<!-- Les starters pour les tests -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-test-security</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

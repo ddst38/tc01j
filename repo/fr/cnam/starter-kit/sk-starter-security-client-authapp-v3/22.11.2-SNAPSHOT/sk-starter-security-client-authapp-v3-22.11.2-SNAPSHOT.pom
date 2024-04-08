@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-spring-boot-starters</artifactId>
+		<version>22.11.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-starter-security-client-authapp-v3</artifactId>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+
+	<dependencies>
+		<!-- Starter SK de test Dépendances starters Spring Boot et/ou lib Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<!-- Dépendances pour la securité authapp v3 client -->
+		<!-- ****************************** -->
+		<!-- Sécurite S8_H                  -->
+		<!-- ****************************** -->
+		<dependency>
+			<groupId>fr.cnamts.s8h</groupId>
+			<artifactId>s8h-CryptoToolBox</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		
+		<!-- Starter SK de test -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+
+</project>

@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent définissant le build d'applications basées sur STUMP -->
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-application-parent</artifactId>
+		<version>22.11.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-cmdline-application-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>POM parent à utiliser pour toutes les applications basées sur le starter-kit STUMP Java CmdLine</description>
+
+	<properties>
+		<!-- sous-répertoire des binaires dans le livrable -->
+		<build.bin.dir>bin</build.bin.dir>
+	</properties>
+
+	<build>
+		<!-- Spécificités des builds des applications SK / Spring Boot -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- On ne veut pas executer les plugins ci-dessous pour le POM courant 
+				seulement pour les enfants. Par défaut ces plugins ne sont pas exécutés, 
+				mais pour que les enfants héritent de la conf prévue et définie dans pluginManagement 
+				sans avoir besoin de déclarer explicitement ces plugins, on les re-déclare 
+				ici, comme ça les enfants les exécuteront. Mais dans cette section on associe 
+				une conf locale non héritée qui associe les plugins à la phase 'never' inexistante: 
+				les plugins ne seront pas exécutés pour le POM courant, et exécutés automatiquement 
+				dans tous ses enfants. -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>build-info</id>
+						<phase>never</phase>
+					</execution>
+					<execution>
+						<id>repackage</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>parse-maven-version</id>
+						<phase>never</phase>
+					</execution>
+					<execution>
+						<id>generate-cnam-version</id>
+						<phase>never</phase>
+					</execution>
+					<execution>
+						<id>generate-ks-var-prefix</id>
+						<phase>never</phase>
+					</execution>
+					<execution>
+						<id>generate-sk-target-artifact</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

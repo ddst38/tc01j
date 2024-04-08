@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-dependencies</artifactId>
+		<version>2.5.0</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.cnam.starter-kit</groupId>
+	<artifactId>sk-spring-boot-parent</artifactId>
+	<version>23.2.0</version>
+	<packaging>pom</packaging>
+
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>Projet parent de tous les projets constituant le starter-kit STUMP Java (POMs parents, tools, starters, autoconfig...)</description>
+
+	<modules>
+		<module>sk-spring-boot-starters</module>
+		<module>sk-spring-boot-autoconfigure</module>
+		<module>sk-spring-boot-tools</module>
+		<module>sk-global-parent</module>
+	</modules>
+
+	<properties>
+		<!-- Attention les properties de ce pom doivent être synchronisées avec 
+			sk-application-parent/pom.xml -->
+
+		<!-- Encoding et version Java -->
+		<project.encoding>UTF-8</project.encoding>
+		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.parameters>true</maven.compiler.parameters>
+
+		<!-- ******* -->
+		<!-- Plugins -->
+		<!-- ******* -->
+		<jacoco.plugin.version>0.8.5</jacoco.plugin.version>
+		<cxf-codegen-plugin.version>3.3.1</cxf-codegen-plugin.version>
+		<maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
+
+		<!-- *********** -->
+		<!-- Dépendances -->
+		<!-- *********** -->
+		<dbunit.version>2.6.0</dbunit.version>
+		<rider.version>1.7.3</rider.version>
+		<assertj.db.version>2.0.0</assertj.db.version>
+
+		<!-- ************* -->
+		<!-- Sécurité S8_H -->
+		<!-- ************* -->
+		<s8h.version>2.0.3</s8h.version>
+
+		<!-- *************** -->
+		<!-- PAT-SALT Client -->
+		<!-- *************** -->
+		<wwj2.version>1.1.5</wwj2.version>
+
+		<!-- ***** -->
+		<!-- DESIR -->
+		<!-- ***** -->
+		<yoh.version>4.1.21</yoh.version>
+		<yoh.classifier>st3.0-rhel7-wls12cr2-pub</yoh.classifier>
+
+		<!-- ************* -->
+		<!-- ESPOIR -->
+		<!-- ************* -->
+		<bimch.version>2.3.10</bimch.version>
+		<bimch.classifier>st3.0-rhel7-wls12cr2-pub</bimch.classifier>
+
+		<common.lang.version>2.6</common.lang.version>
+
+		<!-- ******************* -->
+		<!-- AVRO & SPRING KAFKA -->
+		<!-- ******************* -->
+		<kafka.avro.version>5.5.0</kafka.avro.version>
+		<avro.version>1.9.2</avro.version>
+
+		<!-- ***** -->
+		<!-- SPARK -->
+		<!-- ***** -->
+
+		<spark.version>2.3.2</spark.version>
+		<janino.version>3.0.8</janino.version>
+
+		<!-- ****** -->
+		<!-- JFairy -->
+		<!-- ****** -->
+		<jfairy.version>0.5.9-SNAPSHOT</jfairy.version>
+
+		<!-- ***** -->
+		<!-- HBase -->
+		<!-- ***** -->
+		<hadoop-hdfs.version>3.3.0</hadoop-hdfs.version>
+		<hbase-client.version>2.3.2</hbase-client.version>
+
+		<!-- Utilisé par l'utilitaire d'criture de fichier de rejet Batch -->
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
+
+		<!-- ***** -->
+		<!-- Camel -->
+		<!-- ***** -->
+		<camel.version>3.10.0</camel.version>
+
+		<!-- ****** -->
+		<!-- Caster -->
+		<!-- ****** -->
+		<socah.version>1.0.0</socah.version>
+		<socah.classifier>multipub-pub</socah.classifier>
+
+		<!-- ******** -->
+		<!-- WebLogic -->
+		<!-- ******** -->
+		<weblogic.version>12.2.1.3</weblogic.version>
+
+		<!-- ***************** -->
+		<!-- Driver PostgreSQL -->
+		<!-- ***************** -->
+		<postgresql.version>42.3.3</postgresql.version>
+
+		<!-- ************** -->
+		<!-- Drivers Oracle -->
+		<!-- ************** -->
+		<!-- On fixe la version d'Oracle à la dernière version release de la version 
+			majeure utilisée par la CNAM. Info: drivers 19c supportent les bases 21c, 
+			19c, 18c, 12.2c En environnement déployé sous Tomcat (Datasource JNDI obligatoire) 
+			la librairie et sa version sont géré par le cadre national Tomcat et la version 
+			ci-dessous n'est pas prise en compte. -->
+		<oracle-database.version>19.14.0.0</oracle-database.version>
+
+		<!-- ************************************************************************************************ -->
+		<!-- Log4j2 -->
+		<!-- version forcée pour la faille sécurité: https://www.cert.ssi.gouv.fr/alerte/CERTFR-2021-ALE-022/ -->
+		<!-- ************************************************************************************************ -->
+		<log4j2.version>2.17.1</log4j2.version>
+		<!-- Pour les log asynchrones avec log4j2 -->
+		<lmax-disruptor.version>3.4.4</lmax-disruptor.version>
+
+		<!-- ******************* -->
+		<!-- Nimbus & Jose & Json -->
+		<!-- ******************* -->
+		<nimbus.jose.version>9.20</nimbus.jose.version>
+		<openid.connect.client.version>1.1.12</openid.connect.client.version>
+		<json.smart.version>2.4.8</json.smart.version>
+		<!-- ******************* -->
+		<!-- AMAZON S3 & S3mock -->
+		<!-- ******************* -->
+		<amazon-s3.version>2.17.210</amazon-s3.version>
+		<s3mock-2-13.version>0.2.6</s3mock-2-13.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>java-release</id>
+			<name>java-release</name>
+			<url>${env.REPOSITORY_HOST_URL}/java-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>java-snapshot</id>
+			<name>java-snapshot</name>
+			<url>${env.REPOSITORY_HOST_URL}/java-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<!-- Dependencies sur tous les starters tools et autoconfig avec version -->
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-spring-boot-tools</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-spring-boot-autoconfigure</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-db</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-amazon-s3</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-batch</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-test-security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-batch-xml-starte</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-actuator</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-logging</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-exceptions-web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-camel</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-cxf</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-desir</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-soap-espoir</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jms-weblogic</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-web-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-soap</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-authapp-v3</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-client-authapp-v3</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-authapp-v2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-client-authapp-v2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-agent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-security-portail-agent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jdbc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jpa</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jasper</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-pat</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-avro</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-kafka-spring</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-kafka-stream</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-spark</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-hbase</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-exitstatus</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-metrics</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-caster</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-exceptions</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-batch-purge</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-redis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-ws-passeport</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-ws-passeport-rnh</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-jpa-stats</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit</groupId>
+				<artifactId>sk-starter-amazon-s3</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- fin dependencies sur les starters -->
+
+			<!-- ********** -->
+			<!-- API JAVAX -->
+			<!-- ********** -->
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>2.0.1.Final</version>
+			</dependency>
+			<!-- *********************************** -->
+			<!-- Starters Spring Boot Communautaires -->
+			<!-- *********************************** -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+				<version>3.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-spring-boot-autoconfigure</artifactId>
+				<version>3.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-features-logging</artifactId>
+				<version>3.3.1</version>
+			</dependency>
+			<!-- Camel BOM -->
+			<dependency>
+				<groupId>org.apache.camel.springboot</groupId>
+				<artifactId>camel-spring-boot-bom</artifactId>
+				<version>${camel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- *************** -->
+			<!-- Sécurité S8_H -->
+			<!-- *************** -->
+			<dependency>
+				<groupId>fr.cnamts.s8h</groupId>
+				<artifactId>s8h-CryptoToolBox</artifactId>
+				<version>${s8h.version}</version>
+			</dependency>
+
+			<!-- *************** -->
+			<!-- PAT-SALT Client -->
+			<!-- *************** -->
+			<dependency>
+				<groupId>fr.cnam.tuxedo</groupId>
+				<artifactId>wwj2</artifactId>
+				<version>${wwj2.version}</version>
+			</dependency>
+
+			<!-- ************ -->
+			<!-- DESIR / YO_H -->
+			<!-- ************ -->
+			<dependency>
+				<groupId>fr.cnamts.yoh</groupId>
+				<artifactId>YO_H</artifactId>
+				<version>${yoh.version}</version>
+				<classifier>${yoh.classifier}</classifier>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnamts.yoh</groupId>
+				<artifactId>contextes-yoh</artifactId>
+				<version>${yoh.version}</version>
+				<classifier>${yoh.classifier}</classifier>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnamts.yoh</groupId>
+				<artifactId>ObtenirOperationCible_4_1_client</artifactId>
+				<version>${yoh.version}</version>
+				<classifier>${yoh.classifier}</classifier>
+			</dependency>
+
+			<!-- ************ -->
+			<!-- ESPOIR -->
+			<!-- ************ -->
+			<dependency>
+				<groupId>fr.cnamts.bimch</groupId>
+				<artifactId>BIMC020310H</artifactId>
+				<version>${bimch.version}</version>
+				<classifier>${bimch.classifier}</classifier>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${common.lang.version}</version>
+			</dependency>
+
+			<!-- ************** -->
+			<!-- LMAX Disruptor -->
+			<!-- ************** -->
+			<dependency>
+				<groupId>com.lmax</groupId>
+				<artifactId>disruptor</artifactId>
+				<version>${lmax-disruptor.version}</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- Commons IO -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.6</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- Commons Lang -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.9</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- Commons beanutils -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commons-beanutils.version}</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- JASPER -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports</artifactId>
+				<version>6.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lowagie</groupId>
+				<artifactId>itext</artifactId>
+				<version>2.1.7.js5</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-digester</groupId>
+				<artifactId>commons-digester</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>4.3</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- AVRO -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-avro-serializer</artifactId>
+				<version>${kafka.avro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-streams-avro-serde</artifactId>
+				<version>${kafka.avro.version}</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- SPARK -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-core_2.11</artifactId>
+				<version>${spark.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-sql_2.11</artifactId>
+				<version>${spark.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-catalyst_2.11</artifactId>
+				<version>${spark.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.janino</groupId>
+				<artifactId>commons-compiler</artifactId>
+				<version>${janino.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.janino</groupId>
+				<artifactId>janino</artifactId>
+				<version>${janino.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.cnam.starter-kit.outils</groupId>
+				<artifactId>jfairy-fr</artifactId>
+				<version>${jfairy.version}</version>
+			</dependency>
+
+			<!-- ***** -->
+			<!-- HBase -->
+			<!-- ***** -->
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-hdfs</artifactId>
+				<version>${hadoop-hdfs.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-client</artifactId>
+				<version>${hbase-client.version}</version>
+			</dependency>
+
+			<!-- ***** -->
+			<!-- Nimbus -->
+			<!-- ***** -->
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>nimbus-jose-jwt</artifactId>
+				<version>${nimbus.jose.version}</version>
+			</dependency>
+
+			<!-- ***** -->
+			<!-- Json-smart -->
+			<!-- ***** -->
+			<dependency>
+				<groupId>net.minidev</groupId>
+				<artifactId>json-smart</artifactId>
+				<version>${json.smart.version}</version>
+			</dependency>
+
+			<!-- **************** -->
+			<!-- TEST -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>org.dbunit</groupId>
+				<artifactId>dbunit</artifactId>
+				<version>${dbunit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.database-rider</groupId>
+				<artifactId>rider-junit5</artifactId>
+				<version>${rider.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.database-rider</groupId>
+				<artifactId>rider-spring</artifactId>
+				<version>${rider.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-db</artifactId>
+				<version>${assertj.db.version}</version>
+			</dependency>
+			<!-- **************** -->
+			<!-- CASTER -->
+			<!-- **************** -->
+			<dependency>
+				<groupId>fr.cnamts.socah</groupId>
+				<artifactId>SOCA010000H</artifactId>
+				<version>${socah.version}</version>
+				<classifier>${socah.classifier}</classifier>
+			</dependency>
+			<!-- ******** -->
+			<!-- WebLogic -->
+			<!-- ******** -->
+			<dependency>
+				<groupId>oracle.weblogic</groupId>
+				<artifactId>wlthint3client</artifactId>
+				<version>${weblogic.version}</version>
+			</dependency>
+			<!-- ********** -->
+			<!-- Amazon AWS & S3mock -->
+			<!-- ********** -->
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>s3</artifactId>
+				<version>${amazon-s3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.findify</groupId>
+				<artifactId>s3mock_2.13</artifactId>
+				<version>${s3mock-2-13.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Plugin cfx pour générer les stubs Web Services -->
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf-codegen-plugin.version}</version>
+				</plugin>
+				<!-- Test du livrable -->
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<!-- ${surefireArgLine} permet de récupérer les propriétés settée par 
+							le jacoco plugin (agent java) -->
+						<argLine>${surefireArgLine}</argLine>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.plugin.version}</version>
+					<executions>
+						<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+							is passed as VM argument when Maven the Surefire plugin is executed. -->
+						<execution>
+							<id>pre-unit-test</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<!-- Sets the path to the file which contains the execution data. -->
+								<destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
+								<!-- Sets the name of the property containing the settings for JaCoCo 
+									runtime agent. -->
+								<propertyName>surefireArgLine</propertyName>
+							</configuration>
+						</execution>
+						<!-- Ensures that the code coverage report for unit tests is created 
+							after unit tests have been run. -->
+						<execution>
+							<id>post-unit-test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+							<configuration>
+								<!-- Sets the path to the file which contains the execution data. -->
+								<dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
+								<!-- Sets the output directory for the code coverage report. -->
+								<outputDirectory>${project.build.directory}/coverage-reports/jacoco-ut</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- Création des jars des fichiers source du projet pour faciliter le 
+				débogage des projets clients STUMP. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- On ne veut pas executer le plugin ci-dessous pour le POM courant 
+				seulement pour les enfants. Par défaut ce plugin n'est pas exécuté, mais 
+				pour que les enfants hérite de la conf prévue et définie dans pluginManagement 
+				sans avoir besoin de déclarer explicitement ce plugin, on le re-déclare ici, 
+				comme ça les enfant l'exécuteront, mais dans cette section on associe une 
+				conf locale non héritée qui associe le plugin à la phase 'never' inexistante: 
+				le plugin ne sera pas exécuté pour le POM courant, et exécuté automatiquement 
+				dans tous ses enfants. -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<phase>never</phase>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-no-snapshots</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireReleaseDeps>
+									<message>[WARNING] Présence de Snapshots détecté !</message>
+									<onlyWhenRelease>true</onlyWhenRelease>
+									<excludes>
+										<exclude>fr.cnam.starter-kit.outils:jfairy-fr</exclude>
+									</excludes>
+								</requireReleaseDeps>
+							</rules>
+							<fail>false</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

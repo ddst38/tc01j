@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-global-parent</artifactId>
+		<version>22.11.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-library-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>POM parent à utiliser pour toutes les librairies basées sur le starter-kit STUMP Java</description>
+
+	<build>
+		<pluginManagement>
+			<!-- Spécificités des builds des Libraries SK / Spring Boot -->
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- On ne veut pas executer les plugins ci-dessous pour le POM courant 
+				seulement pour les enfants. Par défaut ces plugins ne sont pas exécutés, 
+				mais pour que les enfants héritent de la conf prévue et définie dans pluginManagement 
+				sans avoir besoin de déclarer explicitement ces plugins, on les re-déclare 
+				ici, comme ça les enfants les exécuteront. Mais dans cette section on associe 
+				une conf locale non héritée qui associe les plugins à la phase 'never' inexistante: 
+				les plugins ne seront pas exécutés pour le POM courant, et exécutés automatiquement 
+				dans tous ses enfants. -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<phase>never</phase>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>junitperf-parent</artifactId>
+        <groupId>com.github.noconnor</groupId>
+        <version>1.35.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>junitperf-junit5</artifactId>
+
+    <properties>
+        <junit.jupiter.version>5.9.0</junit.jupiter.version>
+        <junit.jupiter.suite.api.version>1.9.3</junit.jupiter.suite.api.version>
+        <mockito.junit.version>3.6.28</mockito.junit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.noconnor</groupId>
+            <artifactId>junitperf-core</artifactId>
+            <version>1.35.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite-api</artifactId>
+            <version>${junit.jupiter.suite.api.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

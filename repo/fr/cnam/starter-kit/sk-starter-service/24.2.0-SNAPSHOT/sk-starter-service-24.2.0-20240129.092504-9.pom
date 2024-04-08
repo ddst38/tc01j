@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-spring-boot-starters</artifactId>
+		<version>24.2.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sk-starter-service</artifactId>
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>Starter Spring Boot SK obligatoire pour les applications type middle/back déployées dans un container Web</description>
+
+	<dependencies>
+		<!-- Auto-configuration Spring Boot SK -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-spring-boot-autoconfigure</artifactId>
+ 		</dependency>
+		<!-- Les starters Spring Boot SK amenés par ce starter -->
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-rest</artifactId>
+ 		</dependency>
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-actuator</artifactId>
+ 		</dependency>
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-starter-security-rest</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

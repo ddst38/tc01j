@@ -1,0 +1,129 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.cnam.starter-kit</groupId>
+		<artifactId>sk-spring-boot-parent</artifactId>
+		<version>22.9.0</version>
+	</parent>
+
+	<artifactId>sk-spring-boot-starters</artifactId>
+	<packaging>pom</packaging>
+
+	<name>starter-kit STUMP Java : ${project.artifactId}</name>
+	<description>Projet aggrégateur de tous les sous-projets de starters pour le starter-kit STUMP Java</description>
+
+	<distributionManagement>
+		<repository>
+			<id>java-release</id>
+			<name>java-release</name>
+			<url>http://artifactory.f5.cnqd.cnamts.fr/artifactory/java-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>java-snapshot</id>
+			<name>java-snapshot</name>
+			<url>http://artifactory.f5.cnqd.cnamts.fr/artifactory/java-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<modules>
+		<module>sk-starter-test</module>
+		<module>sk-starter-test-db</module>
+		<module>sk-starter-test-batch</module>
+		<module>sk-starter-test-security</module>
+		<module>sk-starter-test-amazon-s3</module>
+		<module>sk-starter-batch</module>
+		<module>sk-starter-batch-xml</module>
+		<module>sk-starter-batch-exitstatus</module>
+		<module>sk-starter-batch-purge</module>
+		<module>sk-starter-service</module>
+		<module>sk-starter-actuator</module>
+		<module>sk-starter-rest</module>
+		<module>sk-starter-logging</module>
+		<module>sk-starter-batch-exceptions</module>
+		<module>sk-starter-exceptions-web</module>
+		<module>sk-starter-camel</module>
+		<module>sk-starter-soap-cxf</module>
+		<module>sk-starter-soap-desir</module>
+		<module>sk-starter-soap-espoir</module>
+		<module>sk-starter-soap-server</module>
+		<module>sk-starter-jms-weblogic</module>
+		<module>sk-starter-security-web-core</module>
+		<module>sk-starter-security-rest</module>
+		<module>sk-starter-security-soap</module>
+		<module>sk-starter-ws-passeport</module>
+		<module>sk-starter-ws-passeport-rnh</module>
+		<module>sk-starter-security-agent</module>
+		<module>sk-starter-security-portail-agent</module>
+		<module>sk-starter-security-authapp-v3</module>
+		<module>sk-starter-security-client-authapp-v3</module>
+		<module>sk-starter-security-authapp-v2</module>
+		<module>sk-starter-security-client-authapp-v2</module>
+		<module>sk-starter-jdbc</module>
+		<module>sk-starter-jpa</module>
+		<module>sk-starter-jasper</module>
+		<module>sk-starter-pat</module>
+		<module>sk-starter-avro</module>
+		<module>sk-starter-kafka-spring</module>
+		<module>sk-starter-spark</module>
+		<module>sk-starter-kafka-stream</module>
+		<module>sk-starter-hbase</module>
+		<module>sk-starter-caster</module>
+		<module>sk-starter-redis</module>
+		<module>sk-starter-batch-metrics</module>
+		<module>sk-starter-jpa-stats</module>
+		<module>sk-starter-amazon-s3</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.cnam.starter-kit</groupId>
+			<artifactId>sk-spring-boot-tools</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

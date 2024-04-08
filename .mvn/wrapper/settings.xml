@@ -59,4 +59,5 @@
                     </pluginRepositories>
             </profile>
         </profiles>
+      <localRepository>repo</localRepository>
 </settings>

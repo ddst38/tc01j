@@ -3,8 +3,16 @@
 <settings xmlns="http://maven.apache.org/settings/1.0.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-      <properties>
-		<sonar.host.url>http://sonarqube-client-service:9000</sonar.host.url>
-	</properties>
+        <profiles>
+            <profile>
+                    <id>default-cnam-profile</id>
+                    <activation>
+                          <activeByDefault>true</activeByDefault>
+                    </activation>
+                    <properties>
+				<sonar.host.url>http://sonarqube-client-service:9000</sonar.host.url>
+			</properties>
+            </profile>
+        </profiles>
 <localRepository>repo</localRepository>
 </settings>

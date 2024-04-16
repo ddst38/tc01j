@@ -9,9 +9,6 @@
 		<artifactId>toni-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<properties>
-    	<sonar.login>squ_ebe9972f1459992dc395c45200c95c3ea120fc82</sonar.login>
-  	</properties>
 	<artifactId>tc01j</artifactId>
 
 	<name>TONIC : ${project.artifactId}</name>

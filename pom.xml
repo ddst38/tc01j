@@ -47,7 +47,7 @@
 
 	</dependencies>
 	<build>
-
+		<plugins>
 			<!-- Récupération préalable du schéma depuis un jar distant -->
 			<plugin>
 				<groupId>org.openapitools</groupId>
